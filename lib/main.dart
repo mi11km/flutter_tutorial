@@ -31,6 +31,26 @@ class _RandomWordsState extends State<RandomWords> {
   final _liked = <WordPair>{};
   final _biggerFont = const TextStyle(fontSize: 18);
 
+  void _pushLiked() {
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (BuildContext context) {
+      final tiles = _liked.map((WordPair pair) => ListTile(
+            title: Text(
+              pair.asPascalCase,
+              style: _biggerFont,
+            ),
+          ));
+      final divided =
+          ListTile.divideTiles(context: context, tiles: tiles).toList();
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Liked Suggestions'),
+        ),
+        body: ListView(children: divided),
+      );
+    }));
+  }
+
   Widget _buildRow(WordPair pair) {
     final alreadyLiked = _liked.contains(pair);
     return ListTile(
@@ -78,6 +98,12 @@ class _RandomWordsState extends State<RandomWords> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Startup Name Generator'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.list),
+            onPressed: _pushLiked,
+          )
+        ],
       ),
       body: _buildSuggestions(),
     );
