@@ -28,14 +28,33 @@ class RandomWords extends StatefulWidget {
 
 class _RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
+  final _liked = <WordPair>{};
   final _biggerFont = const TextStyle(fontSize: 18);
 
   Widget _buildRow(WordPair pair) {
+    final alreadyLiked = _liked.contains(pair);
     return ListTile(
       title: Text(
         pair.asPascalCase,
         style: _biggerFont,
       ),
+      trailing: Icon(
+        alreadyLiked ? Icons.favorite : Icons.favorite_border,
+        color: alreadyLiked ? Colors.orange : null,
+      ),
+      onTap: () {
+        /*
+          setState() を呼び出すと State オブジェクトの
+          build() メソッドが呼び出され、UI が更新される。
+        */
+        setState(() {
+          if (alreadyLiked) {
+            _liked.remove(pair);
+          } else {
+            _liked.add(pair);
+          }
+        });
+      },
     );
   }
 
