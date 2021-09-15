@@ -8,13 +8,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Welcome to Flutter',
-      home: Scaffold(
-        body: Center(
-          child: RandomWords(),
-        ),
+    return MaterialApp(
+      title: 'Startup Name Generator',
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
       ),
+      home: const RandomWords(),
     );
   }
 }
