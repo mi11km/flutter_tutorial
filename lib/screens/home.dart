@@ -13,14 +13,12 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('App'),
-        actions: <Widget>[
-          TextButton.icon(
-            style: TextButton.styleFrom(primary: Colors.white),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite_border_sharp),
             onPressed: () {
               Navigator.pushNamed(context, FavoritesPage.routeName);
             },
-            icon: const Icon(Icons.favorite_border),
-            label: const Text('Favorites'),
           ),
         ],
       ),
@@ -52,25 +50,26 @@ class ItemTile extends StatelessWidget {
           'Item $itemNo',
           key: Key('text_$itemNo'),
         ),
-        trailing: IconButton(
+        trailing: Icon(
+          favoritesList.items.contains(itemNo)
+              ? Icons.favorite
+              : Icons.favorite_border,
           key: Key('icon_$itemNo'),
-          icon: favoritesList.items.contains(itemNo)
-              ? const Icon(Icons.favorite)
-              : const Icon(Icons.favorite_border),
-          onPressed: () {
-            !favoritesList.items.contains(itemNo)
-                ? favoritesList.add(itemNo)
-                : favoritesList.remove(itemNo);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(favoritesList.items.contains(itemNo)
-                    ? 'Added to favorites.'
-                    : 'Removed from favorites.'),
-                duration: const Duration(seconds: 1),
-              ),
-            );
-          },
+          color: favoritesList.items.contains(itemNo) ? Colors.orange : null,
         ),
+        onTap: () {
+          !favoritesList.items.contains(itemNo)
+              ? favoritesList.add(itemNo)
+              : favoritesList.remove(itemNo);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(favoritesList.items.contains(itemNo)
+                  ? 'Added to favorites.'
+                  : 'Removed from favorites.'),
+              duration: const Duration(seconds: 1),
+            ),
+          );
+        },
       ),
     );
   }
